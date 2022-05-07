@@ -217,7 +217,7 @@ def can_function_runner(vs: VehicleState, exit_event: threading.Event):
 
 def bridge(q):
   # setup CARLA
-  client = carla.Client("127.0.0.1", 2000)
+  client = carla.Client("192.168.86.42", 2000)
   client.set_timeout(10.0)
   world = client.load_world(args.town)
 

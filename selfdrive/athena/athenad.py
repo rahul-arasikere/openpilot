@@ -163,8 +163,6 @@ def upload_handler(end_event: threading.Event) -> None:
   sm = messaging.SubMaster(['deviceState'])
   tid = threading.get_ident()
 
-  cellular_unmetered = Params().get_bool("CellularUnmetered")
-
   while not end_event.is_set():
     cur_upload_items[tid] = None
 
@@ -184,7 +182,7 @@ def upload_handler(end_event: threading.Event) -> None:
       # Check if uploading over cell is allowed
       sm.update(0)
       cell = sm['deviceState'].networkType not in [NetworkType.wifi, NetworkType.ethernet]
-      if cell and (not cur_upload_items[tid].allow_cellular) and (not cellular_unmetered):
+      if cell and (not cur_upload_items[tid].allow_cellular):
         retry_upload(tid, end_event, False)
         continue
 
@@ -193,7 +191,7 @@ def upload_handler(end_event: threading.Event) -> None:
           # Abort transfer if connection changed to cell after starting upload
           sm.update(0)
           cell = sm['deviceState'].networkType not in [NetworkType.wifi, NetworkType.ethernet]
-          if cell and (not cur_upload_items[tid].allow_cellular) and (not cellular_unmetered):
+          if cell and (not cur_upload_items[tid].allow_cellular):
             raise AbortTransferException
 
           cur_upload_items[tid] = cur_upload_items[tid]._replace(progress=cur / sz if sz else 1)
