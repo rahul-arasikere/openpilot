@@ -151,6 +151,8 @@ struct FrameData {
   image @6 :Data;
   globalGainDEPRECATED @5 :Int32;
 
+  paperTimestampTracking @23 :UInt64;
+
   enum FrameType {
     unknown @0;
     neo @1;
@@ -715,6 +717,9 @@ struct ModelDataV2 {
 
   meta @12 :MetaData;
 
+  paperTimestampTracking @20 :UInt64;
+
+
   # All SI units and in device frame
   struct XYZTData {
     x @0 :List(Float32);
@@ -828,6 +833,8 @@ struct LongitudinalPlan @0xe00b5b3eba12876c {
   jerks @34 :List(Float32);
 
   solverExecutionTime @35 :Float32;
+
+  paperTimestampTracking @36 :UInt64;
 
   enum LongitudinalPlanSource {
     cruise @0;
