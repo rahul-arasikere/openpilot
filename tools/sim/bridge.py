@@ -40,7 +40,7 @@ STEER_RATIO = 15.
 pm = messaging.PubMaster(['roadCameraState', 'sensorEvents', 'can', "gpsLocationExternal"])
 sm = messaging.SubMaster(['carControl', 'controlsState'])
 
-profile_log = open(os.join(Path.home(), "CAMERAD_PROFILING"), 'w')
+profile_log = open(os.path.join(Path.home(), "CAMERAD_PROFILING"), 'w')
 
 class VehicleState:
   def __init__(self):
