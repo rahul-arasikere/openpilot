@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import math
+from pathlib import Path
 import threading
 import time
 import os
@@ -39,6 +40,7 @@ STEER_RATIO = 15.
 pm = messaging.PubMaster(['roadCameraState', 'sensorEvents', 'can', "gpsLocationExternal"])
 sm = messaging.SubMaster(['carControl', 'controlsState'])
 
+profile_log = open(os.join(Path.home(), "GPS_PROFILING.txt"), "w")
 
 class VehicleState:
   def __init__(self):
@@ -182,6 +184,7 @@ def gps_callback(gps, vehicle_state):
     "altitude": gps.altitude,
     "speed": vehicle_state.speed,
     "source": log.GpsLocationData.SensorSource.ublox,
+    "paperTimestampTracking": time.time_ns()
   }
 
   pm.send('gpsLocationExternal', dat)
@@ -359,6 +362,8 @@ def bridge(q):
 
     if is_openpilot_engaged:
       sm.update(0)
+
+      profile_log.write(f"{time.time_ns() - sm['carControl'].paperTimestampTracking}\n")
 
       # TODO gas and brake is deprecated
       throttle_op = clip(sm['carControl'].actuators.accel / 1.6, 0.0, 1.0)
