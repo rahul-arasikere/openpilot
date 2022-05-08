@@ -308,7 +308,7 @@ void fill_model(cereal::ModelDataV2::Builder &framed, const ModelOutput &net_out
 
 void model_publish(PubMaster &pm, uint32_t vipc_frame_id, uint32_t frame_id, float frame_drop,
                    const ModelOutput &net_outputs, uint64_t timestamp_eof,
-                   float model_execution_time, kj::ArrayPtr<const float> raw_pred, const bool valid) {
+                   float model_execution_time, kj::ArrayPtr<const float> raw_pred, const bool valid, uint64_t paper_timestamp_tracking) {
   const uint32_t frame_age = (frame_id > vipc_frame_id) ? (frame_id - vipc_frame_id) : 0;
   MessageBuilder msg;
   auto framed = msg.initEvent(valid).initModelV2();
@@ -317,6 +317,7 @@ void model_publish(PubMaster &pm, uint32_t vipc_frame_id, uint32_t frame_id, flo
   framed.setFrameDropPerc(frame_drop * 100);
   framed.setTimestampEof(timestamp_eof);
   framed.setModelExecutionTime(model_execution_time);
+  framed.setPaperTimestampTracking(paper_timestamp_tracking);
   if (send_raw_pred) {
     framed.setRawPredictions(raw_pred.asBytes());
   }

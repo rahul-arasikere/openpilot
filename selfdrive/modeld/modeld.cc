@@ -72,6 +72,7 @@ void run_model(ModelState &model, VisionIpcClient &vipc_client, bool wide_camera
 
     // TODO: path planner timeout?
     sm.update(0);
+    uint64_t paper_timestamp_tracking = sm["roadCameraState"].getRoadCameraState().getPaperTimestampTracking();
     int desire = ((int)sm["lateralPlan"].getLateralPlan().getDesire());
     frame_id = sm["roadCameraState"].getRoadCameraState().getFrameId();
     if (sm.updated("liveCalibration")) {
@@ -102,7 +103,7 @@ void run_model(ModelState &model, VisionIpcClient &vipc_client, bool wide_camera
     float frame_drop_ratio = frames_dropped / (1 + frames_dropped);
 
     model_publish(pm, extra.frame_id, frame_id, frame_drop_ratio, *model_output, extra.timestamp_eof, model_execution_time,
-                  kj::ArrayPtr<const float>(model.output.data(), model.output.size()), live_calib_seen);
+                  kj::ArrayPtr<const float>(model.output.data(), model.output.size()), live_calib_seen, paper_timestamp_tracking);
     posenet_publish(pm, extra.frame_id, vipc_dropped_frames, *model_output, extra.timestamp_eof, live_calib_seen);
 
     //printf("model process: %.2fms, from last %.2fms, vipc_frame_id %u, frame_id, %u, frame_drop %.3f\n", mt2 - mt1, mt1 - last, extra.frame_id, frame_id, frame_drop_ratio);

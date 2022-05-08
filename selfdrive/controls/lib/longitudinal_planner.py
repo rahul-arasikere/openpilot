@@ -110,6 +110,7 @@ class Planner:
 
     longitudinalPlan = plan_send.longitudinalPlan
     longitudinalPlan.modelMonoTime = sm.logMonoTime['modelV2']
+    longitudinalPlan.paperTimestampTracking = sm['modelV2'].paperTimestampTracking
     longitudinalPlan.processingDelay = (plan_send.logMonoTime / 1e9) - sm.logMonoTime['modelV2']
 
     longitudinalPlan.speeds = self.v_desired_trajectory.tolist()

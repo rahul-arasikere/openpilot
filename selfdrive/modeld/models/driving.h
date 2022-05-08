@@ -237,6 +237,6 @@ ModelOutput *model_eval_frame(ModelState* s, cl_mem yuv_cl, int width, int heigh
 void model_free(ModelState* s);
 void model_publish(PubMaster &pm, uint32_t vipc_frame_id, uint32_t frame_id, float frame_drop,
                    const ModelOutput &net_outputs, uint64_t timestamp_eof,
-                   float model_execution_time, kj::ArrayPtr<const float> raw_pred, const bool valid);
+                   float model_execution_time, kj::ArrayPtr<const float> raw_pred, const bool validm, uint64_t paper_timestamp_tracking);
 void posenet_publish(PubMaster &pm, uint32_t vipc_frame_id, uint32_t vipc_dropped_frames,
                      const ModelOutput &net_outputs, uint64_t timestamp_eof, const bool valid);

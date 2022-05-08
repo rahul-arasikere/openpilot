@@ -6,6 +6,7 @@ import time
 import os
 from multiprocessing import Process, Queue
 from typing import Any
+from pathlib import Path
 
 import carla  # pylint: disable=import-error
 import numpy as np
@@ -39,6 +40,7 @@ STEER_RATIO = 15.
 pm = messaging.PubMaster(['roadCameraState', 'sensorEvents', 'can', "gpsLocationExternal"])
 sm = messaging.SubMaster(['carControl', 'controlsState'])
 
+profile_log = open(os.join(Path.home(), "CAMERAD_PROFILING"), 'w')
 
 class VehicleState:
   def __init__(self):
@@ -105,7 +107,8 @@ class Camerad:
       "frameId": image.frame,
       "transform": [1.0, 0.0, 0.0,
                     0.0, 1.0, 0.0,
-                    0.0, 0.0, 1.0]
+                    0.0, 0.0, 1.0],
+      "paperTimestampTracking": time.time_ns()
     }
     pm.send('roadCameraState', dat)
     self.frame_id += 1
@@ -358,8 +361,8 @@ def bridge(q):
       old_brake = brake_out
 
     if is_openpilot_engaged:
-      sm.update(0)
-
+      sm.update(0)                                        
+      profile_log.write(f"{time.time_ns() - sm['carControl'].paperTimestampTracking}\n")
       # TODO gas and brake is deprecated
       throttle_op = clip(sm['carControl'].actuators.accel / 1.6, 0.0, 1.0)
       brake_op = clip(-sm['carControl'].actuators.accel / 4.0, 0.0, 1.0)
