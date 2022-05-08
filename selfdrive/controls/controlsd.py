@@ -695,6 +695,7 @@ class Controls:
     # carControl
     cc_send = messaging.new_message('carControl')
     cc_send.valid = CS.canValid
+    CC.paperTimestampTracking = self.sm['liveParameters'].paperTimestampTracking
     cc_send.carControl = CC
     self.pm.send('carControl', cc_send)
 

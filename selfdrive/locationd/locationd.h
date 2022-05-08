@@ -72,4 +72,5 @@ private:
   double reset_tracker = 0.0;
   bool device_fell = false;
   bool gps_mode = false;
+  uint64_t paper_timestamp_tracking = 0;
 };

@@ -3,6 +3,7 @@ import gc
 import math
 
 import json
+from select import select
 import numpy as np
 
 import cereal.messaging as messaging
@@ -38,9 +39,11 @@ class ParamsLearner:
     self.steering_angle = 0.0
 
     self.valid = True
+    self.paper_timestamp_tracking = 0
 
   def handle_log(self, t, which, msg):
     if which == 'liveLocationKalman':
+      self.paper_timestamp_tracking = msg.paperTimestampTracking
       yaw_rate = msg.angularVelocityCalibrated.value[2]
       yaw_rate_std = msg.angularVelocityCalibrated.std[2]
 
@@ -180,6 +183,7 @@ def main(sm=None, pm=None):
       msg.logMonoTime = sm.logMonoTime['carState']
 
       liveParameters = msg.liveParameters
+      liveParameters = learner.paper_timestamp_tracking
       liveParameters.posenetValid = True
       liveParameters.sensorValid = True
       liveParameters.steerRatio = float(x[States.STEER_RATIO])
