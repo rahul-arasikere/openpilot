@@ -273,7 +273,7 @@ void Localizer::handle_gps(double current_time, const cereal::GpsLocationData::R
     this->determine_gps_mode(current_time);
     return;
   }
-  this->paper_timestamp_tracking = log.getPaperTimstampTracking();
+  this->paper_timestamp_tracking = log.getPaperTimestampTracking();
   // Process message
   this->last_gps_fix = current_time;
   this->gps_mode = true;
@@ -467,7 +467,7 @@ kj::ArrayPtr<capnp::byte> Localizer::get_message_bytes(MessageBuilder& msg_build
   liveLoc.setInputsOK(inputsOK);
   liveLoc.setSensorsOK(sensorsOK);
   liveLoc.setGpsOK(gpsOK);
-  liveLoc.setPaperTimstampTracking(this->paper_timestamp_tracking);
+  liveLoc.setPaperTimestampTracking(this->paper_timestamp_tracking);
   return msg_builder.toBytes();
 }
 

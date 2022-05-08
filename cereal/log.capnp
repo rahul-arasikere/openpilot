@@ -265,7 +265,7 @@ struct GpsLocationData {
   # Represents velocity accuracy in m/s. (presumably 1 sigma?)
   speedAccuracy @12 :Float32;
 
-  paperTimstampTracking @13 :UInt64;
+  paperTimestampTracking @13 :UInt64;
 
   enum SensorSource {
     android @0;
@@ -978,7 +978,7 @@ struct LiveLocationKalman {
   timeSinceReset @23 :Float64;
   excessiveResets @24 :Bool;
 
-  paperTimstampTracking @25 :UInt64;
+  paperTimestampTracking @25 :UInt64;
 
   enum Status {
     uninitialized @0;
@@ -1332,7 +1332,7 @@ struct LiveParametersData {
   stiffnessFactorStd @12 :Float32;
   steerRatioStd @13 :Float32;
   roll @14 :Float32;
-  paperTimstampTracking @15 :UInt64;
+  paperTimestampTracking @15 :UInt64;
 }
 
 struct LiveMapDataDEPRECATED {

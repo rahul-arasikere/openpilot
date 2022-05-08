@@ -40,7 +40,7 @@ STEER_RATIO = 15.
 pm = messaging.PubMaster(['roadCameraState', 'sensorEvents', 'can', "gpsLocationExternal"])
 sm = messaging.SubMaster(['carControl', 'controlsState'])
 
-profile_log = open(os.join(Path.home(), "GPS_PROFILING.txt"), "w")
+profile_log = open(os.path.join(Path.home(), "GPS_PROFILING.txt"), "w")
 
 class VehicleState:
   def __init__(self):
@@ -220,7 +220,7 @@ def can_function_runner(vs: VehicleState, exit_event: threading.Event):
 
 def bridge(q):
   # setup CARLA
-  client = carla.Client("192.168.86.42", 2000)
+  client = carla.Client("192.168.1.123", 2000)
   client.set_timeout(10.0)
   world = client.load_world(args.town)
 

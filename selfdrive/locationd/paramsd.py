@@ -183,7 +183,7 @@ def main(sm=None, pm=None):
       msg.logMonoTime = sm.logMonoTime['carState']
 
       liveParameters = msg.liveParameters
-      liveParameters = learner.paper_timestamp_tracking
+      liveParameters.paperTimestampTracking = learner.paper_timestamp_tracking
       liveParameters.posenetValid = True
       liveParameters.sensorValid = True
       liveParameters.steerRatio = float(x[States.STEER_RATIO])
